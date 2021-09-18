@@ -6,7 +6,9 @@ A fast way to browse what times shows were on T.V. in the past!
 
 ## The Experimental Side
   * Determine good ways to expose known data for relevant queries. For a query of "What aired on Tuesday night at 7:30 in 1965 on NBC", the answer by the search engine should be clear, right up top ("My Mother the Car", see https://en.wikipedia.org/wiki/1965%E2%80%9366_United_States_network_television_schedule). We have the data and can answer the question, but I think ultimately a search engine should answer this question itself.
-    * Should we enter our database somewhere to facilitate this? Perhaps mark up page content using Google Structured Data or (similarly) schema.org markup?
+    * Try entering in the form of an FAQ page for each question: https://developers.google.com/search/docs/advanced/structured-data/faqpage
+       * Appropriate to show both the question and answer already expanded.
+       * Not appropriate to use Q&A page since users can't submit additional answers.
     * Instead of answering the direct query, we will take the route of generating all possible search queries and answers based on the data we have. A lot easier problem, and hopefully helpful.
   * Expose more useful but complicated queries like "what was on tv at 7pm in the 60s"
   * See if we can get a random website that has user's queries nearly exactly typed with good answers to rank highly on Google!
