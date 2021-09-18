@@ -301,7 +301,7 @@
       if (show_name != null) {
         document.getElementById('show_input').value = show_name;
         console.log("Searching! %s", show_name);
-        searchShowName(show_name);
+        searchValidShowName(show_name);
       }
 
     }
@@ -319,7 +319,7 @@
       show_names_list = Array.from(show_names);
     }
 
-    function searchShowName(show_name) {
+    function searchValidShowName(show_name) {
       var output = "";
       for (var i = 0; i < db.length; i++) {
         if (db[i][5] == show_name) {
@@ -329,9 +329,7 @@
       // Update output text area
       document.getElementById('output').innerHTML = output;
       
-      // Rewrite URL
-      var url = "?show_name=" + item;
-      window.history.pushState({}, '', url);
+
     };
     
 
@@ -359,7 +357,20 @@
             minLength: 1,
             onSelect: function(item) {
                 show_input.value = item;
-                searchShowName(item);
+                searchValidShowName(item);
+                
+                
+                
+                // Rewrite URL
+                // TODO: Why doesn't this work inside of searchValidShowName?
+                // I think because it's also called by respondToURL?
+                var url = "?show_name=" + item;
+                window.history.pushState({}, '', url);
+                
+                
+                
+                
+                
             },
             fetch: function(text, callback) {
                 var match = text.toLowerCase();
