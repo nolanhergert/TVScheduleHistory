@@ -266,6 +266,8 @@
   <body>
     <p id="time"></p>
     <p id="greeting"></p>
+    <h3 id="question"></h3>
+    <h2 id="answer"></h2>
     
     <input type="text" id="show_input" placeholder="Show Name">
     <p></p>
@@ -301,9 +303,17 @@
     function respondToURL(url) {
       const parsedUrl = new URL(url);
       for (let p of parsedUrl.searchParams) {
+        console.log(p);
+        console.log(p[0] + ' ' + p[1]);
         if (p[0] == "show_name") {
           document.getElementById('show_input').value = p[1];
           searchValidShowName(p[1]);
+        }
+        if (p[0] == "question") {
+          document.getElementById('question').innerText = p[1] + "?";
+        }
+        if (p[0] == "answer") {
+          document.getElementById('answer').innerText = p[1];
         }
       }
       // TODO: Need to handle multiple search params (anded together)

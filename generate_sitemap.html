@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<xmp id="output">
+<head></head>
+</xmp>
+
+</body>
+<script>
+
+  var db = [];
+  var years = new Set();
+  var show_names = new Set();
+  var show_names_list = [];
+  var networks = new Set();
+  
+  
+  url_prefix = "https://nolanhergert.github.io/TVScheduleHistory?"
+  urls = [];
+  
+  function loadDB(data) {
+    var lines = data.split("\r\n");
+    console.log(lines.length);
+    for (var i = 1; i < lines.length; i++) {
+      values = lines[i].split("\t");
+      let year = values[0];
+      let network = values[1];
+      let dow = values[2];
+      let start_time = values[3];
+      let end_time = values[4];
+      let show_name = values[5];
+      
+      // What time was X on in YYYY
+      
+      urls.push(url_prefix + "question=What time was " + values[5] + " on in " + year + "&answer=" + start_time + "&show_name=" + show_name + "&year=" + year);
+      
+      
+      // What network was X on in YYYY  (also do multiple years eventually?)
+      
+      // What day was X on in YYYY
+      
+      // 
+      // Optional:
+      //    * What 
+      years.add(values[0]);
+      networks.add(values[1]);
+      show_names.add(values[5]);
+      
+      db.push(values);
+    }
+    var html = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+    for (var i = 0; i < urls.length; i++) {
+      html += "<url>";
+      html += "<loc>" + urls[i] + "</loc>";
+      html += "</url>";
+    }
+    html += "</urlset>";
+    document.getElementById('output').innerHTML = html;
+    
+    // What shows were on at T:TT in YYYY?
+    
+    // 
+    
+    
+    show_names_list = Array.from(show_names);
+  }
+
+  function generateSitemap(text) {
+    loadDB(text);
+    
+  }
+    
+    fetch('https://nolanhergert.github.io/TVScheduleHistory/TV%20Schedule%20Test%20-%20DB%20Way.tsv')
+    .then(response => response.text())
+    .then(text => generateSitemap(text))
+
+
+    
+    </script>
+
+</html>    
