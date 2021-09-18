@@ -323,6 +323,12 @@
         function charsAllowed(value) {
           return allowedChars.test(value);
         }
+
+
+        // TODO: Decode URL's
+        // Might need this: https://github.com/medialize/URI.js
+        // But hopefully can just get away with browser's apis:
+        //   * https://developer.mozilla.org/en-US/docs/Web/API/URL, and https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
             
         autocomplete({
             input: document.getElementById('show_input'),
@@ -330,6 +336,9 @@
             onSelect: function(item) {
                 show_input.value = item;
                 document.getElementById('output').textContent = search(item);
+                // https://stackoverflow.com/questions/824349/how-do-i-modify-the-url-without-reloading-the-page
+                // Might need the first thing to not be empty?
+                history.pushState({}, null, newUrl);
             },
             fetch: function(text, callback) {
                 var match = text.toLowerCase();
@@ -355,13 +364,6 @@
     .then(response => response.text())
     .then(text => setupDB(text))
     
-    
-    
-    
-    
-    
-    
-      
       var t1 = performance.now();
       document.getElementById("time").innerHTML = "Call to Foo took " + (t1 - t0) + " milliseconds.";
     </script>
