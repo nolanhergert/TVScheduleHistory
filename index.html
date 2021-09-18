@@ -18,11 +18,11 @@
     cookie_flags: 'SameSite=None;Secure',
   });
 </script>
-  
+
   <script src="functions.js"></script>
   <script src="autocomplete.js"></script>
   <link rel="stylesheet" type="text/css" href="autocomplete.css">
-    
+
       <style>
     html {
       height: 100%;
@@ -261,15 +261,15 @@
       }
     }
   </style>
-  
+
   </head>
-  
+
   <body>
     <p id="time"></p>
     <p id="greeting"></p>
     <h3 id="question"></h3>
     <h2 id="answer"></h2>
-    
+
     <input type="text" id="show_input" placeholder="Show Name">
     <p></p>
     <div id="output"></div>
@@ -280,26 +280,26 @@
 
   <a href="sitemap.html">Sitemap</a>
   </body>
-  
+
   <style>
   body { white-space: pre; font-family: monospace; }
   </style>
     <script>
 
 
-    
 
-     
-      
+
+
+
       var t0 = performance.now();
-      
+
     var db = [];
     var years = new Set();
     var show_names = new Set();
     var show_names_list = [];
     var networks = new Set();
 
-    
+
     // Decode URL arguments and respond to them
     // Just getting away with browser's apis:
     //   * https://developer.mozilla.org/en-US/docs/Web/API/URL, and https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
@@ -325,7 +325,7 @@
       }
       // TODO: Need to handle multiple search params (anded together)
     }
-    
+
     function loadDB(data) {
       var lines = data.split("\r\n");
       for (var i = 1; i < lines.length; i++) {
@@ -333,7 +333,7 @@
         years.add(values[0]);
         networks.add(values[1]);
         show_names.add(values[5]);
-        
+
         db.push(values);
       }
       show_names_list = Array.from(show_names);
@@ -349,7 +349,7 @@
       // Update output text area
       document.getElementById('output').innerHTML = output;
     };
-    
+
 
     function setupPage(data) {
         loadDB(data);
@@ -368,19 +368,19 @@
             onSelect: function(item) {
                 show_input.value = item;
                 searchValidShowName(item);
-                
-                
-                
+
+
+
                 // Rewrite URL
                 // TODO: Why doesn't this work inside of searchValidShowName?
                 // I think because it's also called by respondToURL?
                 var url = "?show_name=" + item;
-                window.history.pushState({}, '', url);
-                
-                
-                
-                
-                
+                window.history.pushState({}, '', encodeURICustom(url));
+
+
+
+
+
             },
             fetch: function(text, callback) {
                 var match = text.toLowerCase();
@@ -400,17 +400,17 @@
 
         });
     }
-      
-      
+
+
     fetch('https://nolanhergert.github.io/TVScheduleHistory/TV%20Schedule%20Test%20-%20DB%20Way.tsv')
     .then(response => response.text())
     .then(text => setupPage(text))
-    
+
     // Detect if URL changed while page was already loaded (back/forward buttons)
     window.addEventListener('popstate', function (event) {
       respondToURL(window.location.href);
     });
-    
+
       var t1 = performance.now();
       document.getElementById("time").innerHTML = "Call to Foo took " + (t1 - t0) + " milliseconds.";
     </script>
