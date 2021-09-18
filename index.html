@@ -18,7 +18,8 @@
     cookie_flags: 'SameSite=None;Secure',
   });
 </script>
-
+  
+  <script src="functions.js"></script>
   <script src="autocomplete.js"></script>
   <link rel="stylesheet" type="text/css" href="autocomplete.css">
     
@@ -296,11 +297,15 @@
     var show_names_list = [];
     var networks = new Set();
 
-
+    
     // Decode URL arguments and respond to them
     // Just getting away with browser's apis:
     //   * https://developer.mozilla.org/en-US/docs/Web/API/URL, and https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
     function respondToURL(url) {
+      console.log("Before: " + url);
+      url = decodeURICustom(url);
+      window.history.replaceState({}, '', url);
+      console.log("After: " + url);
       const parsedUrl = new URL(url);
       for (let p of parsedUrl.searchParams) {
         console.log(p);

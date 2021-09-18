@@ -3,14 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
+    
 </head>
 <body>
 
 <xmp id="output">
-<head></head>
+
 </xmp>
 
 </body>
+<script src="functions.js"></script>
 <script>
 
   var db = [];
@@ -20,7 +22,7 @@
   var networks = new Set();
   
   
-  url_prefix = "https://nolanhergert.github.io/TVScheduleHistory?"
+  const url_prefix = new URL('index.html?', window.location.href);
   urls = [];
   
   function loadDB(data) {
@@ -37,7 +39,9 @@
       
       // What time was X on in YYYY
       
-      urls.push(url_prefix + "question=What time was " + values[5] + " on in " + year + "&answer=" + start_time + "&show_name=" + show_name + "&year=" + year);
+      let url = url_prefix + "question=What time was " + values[5] + " on in " + year + "&answer=" + start_time + "&show_name=" + show_name + "&year=" + year;
+
+      urls.push(encodeURICustom(url));
       
       
       // What network was X on in YYYY  (also do multiple years eventually?)
@@ -83,4 +87,4 @@
     
     </script>
 
-</html>    
+</html>
