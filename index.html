@@ -284,38 +284,66 @@
       
       var t0 = performance.now();
       
-      
-    
     var db = [];
     var years = new Set();
     var show_names = new Set();
     var show_names_list = [];
     var networks = new Set();
-    function setupDB(data) {
-        var lines = data.split("\r\n");
-        for (var i = 1; i < lines.length; i++) {
-          values = lines[i].split("\t");
-          years.add(values[0]);
-          networks.add(values[1]);
-          show_names.add(values[5]);
-          
-          db.push(values);
+
+
+    // TODO: Decode URL's
+    // Might need this: https://github.com/medialize/URI.js
+    // But hopefully can just get away with browser's apis:
+    //   * https://developer.mozilla.org/en-US/docs/Web/API/URL, and https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
+    function respondToURL(url) {
+      const parsedUrl = new URL(url);
+      var show_name = parsedUrl.searchParams.get("show_name");
+      if (show_name != null) {
+        document.getElementById('show_input').value = show_name;
+        console.log("Searching! %s", show_name);
+        searchShowName(show_name);
+      }
+
+    }
+    
+    function loadDB(data) {
+      var lines = data.split("\r\n");
+      for (var i = 1; i < lines.length; i++) {
+        values = lines[i].split("\t");
+        years.add(values[0]);
+        networks.add(values[1]);
+        show_names.add(values[5]);
+        
+        db.push(values);
+      }
+      show_names_list = Array.from(show_names);
+    }
+
+    function searchShowName(show_name) {
+      var output = "";
+      for (var i = 0; i < db.length; i++) {
+        if (db[i][5] == show_name) {
+          output += "<p>" + db[i].join('\t') + "</p>";
         }
+      }
+      // Update output text area
+      document.getElementById('output').innerHTML = output;
+      
+      // Rewrite URL
+      var url = "?show_name=" + item;
+      window.history.pushState({}, '', url);
+    };
+    
+
+    function setupPage(data) {
+        loadDB(data);
+
+        respondToURL(window.location.href);
+
+
         
         
-        show_names_list = Array.from(show_names);
-        
-        
-        function search(show_name) {
-          for (var i = 0; i < db.length; i++) {
-            if (db[i][5] == show_name) {
-              console.log(db[i]);
-              console.log(db[i].join('\t'));
-              return db[i].join('\t');
-              
-            }
-          }
-        };
+
         
         
         
@@ -325,20 +353,13 @@
         }
 
 
-        // TODO: Decode URL's
-        // Might need this: https://github.com/medialize/URI.js
-        // But hopefully can just get away with browser's apis:
-        //   * https://developer.mozilla.org/en-US/docs/Web/API/URL, and https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
             
         autocomplete({
             input: document.getElementById('show_input'),
             minLength: 1,
             onSelect: function(item) {
                 show_input.value = item;
-                document.getElementById('output').textContent = search(item);
-                // https://stackoverflow.com/questions/824349/how-do-i-modify-the-url-without-reloading-the-page
-                // Might need the first thing to not be empty?
-                history.pushState({}, null, newUrl);
+                searchShowName(item);
             },
             fetch: function(text, callback) {
                 var match = text.toLowerCase();
@@ -360,9 +381,14 @@
     }
       
       
-    fetch('TV%20Schedule%20Test%20-%20DB%20Way.tsv')
+    fetch('https://nolanhergert.github.io/TVScheduleHistory/TV%20Schedule%20Test%20-%20DB%20Way.tsv')
     .then(response => response.text())
-    .then(text => setupDB(text))
+    .then(text => setupPage(text))
+    
+    // Detect if URL changed while page was already loaded (back/forward buttons)
+    window.addEventListener('popstate', function (event) {
+      respondToURL(window.location.href);
+    });
     
       var t1 = performance.now();
       document.getElementById("time").innerHTML = "Call to Foo took " + (t1 - t0) + " milliseconds.";
