@@ -4,8 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <title>TV Schedule History</title>
+  <link rel="icon" type="image/ico" href="tv_emoji_apple.ico">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Answer questions about TV show schedules!">
 
 
   <script src="functions.js"></script>
@@ -63,6 +65,8 @@
         }
         if (p[0] == "question") {
           document.getElementById('question').innerText = p[1] + "?";
+          // Update description as well
+          document.querySelector('meta[name="description"]').setAttribute("content", p[1] + "?");
         }
         if (p[0] == "answer") {
           document.getElementById('answer').innerText = p[1];

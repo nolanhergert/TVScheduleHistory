@@ -15,6 +15,7 @@ A fast way to browse what times shows were on T.V. in the past!
 
 ## Todo
   * Sitemap.html maybe shouldn't have 1000s of links? Do like NYTimes does? I wish I could use sitemap.xml, but Google didn't like my urls.
+  * Better title/description meta tags. Dynamic according to Google: https://developers.google.com/search/docs/advanced/appearance/good-titles-snippets?visit_id=637675869924136807-635742984&rd=1#1
 
 ## Data sources
   * TV Maze! CC-BY-CA too! http://api.tvmaze.com/shows/3853/episodes. However, it doesn't say the network!
