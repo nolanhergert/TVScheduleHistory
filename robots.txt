@@ -1,1 +1,2 @@
 User-agent: *
+Sitemap: https://nolanhergert.github.io/TVScheduleHistory/sitemap.xml
