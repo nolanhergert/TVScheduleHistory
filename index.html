@@ -5,15 +5,19 @@
     <meta charset="UTF-8">
     <title>TV Show Time Test</title>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5YLR3L284J"></script>
-  <script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5YLR3L284J"></script>
+<script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-5YLR3L284J');
-  </script>
+  gtag('config', 'G-5YLR3L284J', {
+    cookie_domain: 'nolanhergert.github.io',
+    cookie_flags: 'SameSite=None;Secure',
+  });
+</script>
 
   <script src="autocomplete.js"></script>
   <link rel="stylesheet" type="text/css" href="autocomplete.css">
