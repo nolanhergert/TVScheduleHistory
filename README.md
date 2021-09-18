@@ -13,6 +13,9 @@ A fast way to browse what times shows were on T.V. in the past!
   * Expose more useful but complicated queries like "what was on tv at 7pm in the 60s"
   * See if we can get a random website that has user's queries nearly exactly typed with good answers to rank highly on Google!
 
+## Todo
+  * Sitemap.html maybe shouldn't have 1000s of links? Do like NYTimes does? I wish I could use sitemap.xml, but Google didn't like my urls.
+
 ## Data sources
   * TV Maze! CC-BY-CA too! http://api.tvmaze.com/shows/3853/episodes. However, it doesn't say the network!
   * Wikipedia
