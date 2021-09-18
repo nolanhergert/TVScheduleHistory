@@ -295,19 +295,18 @@
     var networks = new Set();
 
 
-    // TODO: Decode URL's
-    // Might need this: https://github.com/medialize/URI.js
-    // But hopefully can just get away with browser's apis:
+    // Decode URL arguments and respond to them
+    // Just getting away with browser's apis:
     //   * https://developer.mozilla.org/en-US/docs/Web/API/URL, and https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
     function respondToURL(url) {
       const parsedUrl = new URL(url);
-      var show_name = parsedUrl.searchParams.get("show_name");
-      if (show_name != null) {
-        document.getElementById('show_input').value = show_name;
-        console.log("Searching! %s", show_name);
-        searchValidShowName(show_name);
+      for (let p of parsedUrl.searchParams) {
+        if (p[0] == "show_name") {
+          document.getElementById('show_input').value = p[1];
+          searchValidShowName(p[1]);
+        }
       }
-
+      // TODO: Need to handle multiple search params (anded together)
     }
     
     function loadDB(data) {
@@ -332,8 +331,6 @@
       }
       // Update output text area
       document.getElementById('output').innerHTML = output;
-      
-
     };
     
 
@@ -343,19 +340,11 @@
         respondToURL(window.location.href);
 
 
-        
-        
-
-        
-        
-        
         var allowedChars = new RegExp(/^[a-zA-Z\s]+$/)
         function charsAllowed(value) {
           return allowedChars.test(value);
         }
 
-
-            
         autocomplete({
             input: document.getElementById('show_input'),
             minLength: 1,
@@ -408,6 +397,5 @@
       var t1 = performance.now();
       document.getElementById("time").innerHTML = "Call to Foo took " + (t1 - t0) + " milliseconds.";
     </script>
-  </head>
 
 </html>
