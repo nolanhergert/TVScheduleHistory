@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    
+
 </head>
 <body>
 
@@ -20,14 +20,13 @@
   var show_names = new Set();
   var show_names_list = [];
   var networks = new Set();
-  
-  
+
+
   const url_prefix = new URL('index.html?', window.location.href);
   urls = [];
-  
+
   function loadDB(data) {
     var lines = data.split("\r\n");
-    console.log(lines.length);
     for (var i = 1; i < lines.length; i++) {
       values = lines[i].split("\t");
       let year = values[0];
@@ -36,30 +35,35 @@
       let start_time = values[3];
       let end_time = values[4];
       let show_name = values[5];
-      
-      if (show_name.includes('&')) throw "Can't have & in show name!";
-        
-      
-      // What time was X on in YYYY
-      
-      let url = url_prefix + "question=What time was " + values[5] + " on in " + year + "&answer=" + start_time + "&show_name=" + show_name + "&year=" + year;
 
+      if (show_name.includes('&')) throw "Can't have & in show name!";
+
+      // Start with questions only our site can answer right now?
+
+      // What time was X on in YYYY
+      let url = url_prefix + "question=What time was " + show_name + " on in " + year + "&answer=" + start_time + "&show_name=" + show_name + "&year=" + year;
       urls.push(encodeURICustom(url));
-      
-      
+
+
       // What network was X on in YYYY  (also do multiple years eventually?)
-      
+      url = url_prefix + "question=What network was " + show_name + " on in " + year + "&answer=" + network + "&show_name=" + show_name + "&year=" + year;
+      urls.push(encodeURICustom(url));
+
       // What day was X on in YYYY
-      
-      // 
+      url = url_prefix + "question=What day was " + show_name + " on in " + year + "&answer=" + dow + "&show_name=" + show_name + "&year=" + year;
+      urls.push(encodeURICustom(url));
+
+      //
       // Optional:
-      //    * What 
-      years.add(values[0]);
-      networks.add(values[1]);
-      show_names.add(values[5]);
-      
+      //    * What
+      years.add(year);
+      networks.add(network);
+      show_names.add(dow);
+
       db.push(values);
     }
+
+
     /*
     // Encode sitemap in xml format
     // But Google doesn't like it...
@@ -72,33 +76,33 @@
     html += "</urlset>";
     document.getElementById('output').innerHTML = html;
     */
-    
+
     // Encode siteamp in link format
     var html = '';
     for (var i = 0; i < urls.length; i++) {
       html += "<a href=" + urls[i] + ">" + urls[i] + "</a><br>";
     }
     document.body.innerHTML += html;//"<a href='#'></a>";
-    
+
     // What shows were on at T:TT in YYYY?
-    
-    // 
-    
-    
+
+    //
+
+
     show_names_list = Array.from(show_names);
   }
 
   function generateSitemap(text) {
     loadDB(text);
-    
+
   }
-    
+
     fetch('https://nolanhergert.github.io/TVScheduleHistory/TV%20Schedule%20Test%20-%20DB%20Way.tsv')
     .then(response => response.text())
     .then(text => generateSitemap(text))
 
 
-    
+
     </script>
 
 </html>
