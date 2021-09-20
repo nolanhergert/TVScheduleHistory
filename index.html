@@ -73,18 +73,7 @@
       // TODO: Need to handle multiple search params (anded together)
     }
 
-    function loadDB(data) {
-      var lines = data.split("\r\n");
-      for (var i = 1; i < lines.length; i++) {
-        values = lines[i].split("\t");
-        years.add(values[0]);
-        networks.add(values[1]);
-        show_names.add(values[5]);
 
-        db.push(values);
-      }
-      show_names_list = Array.from(show_names);
-    }
 
     function searchValidShowName(show_name) {
       var output = "";
@@ -99,7 +88,7 @@
 
 
     function setupPage(data) {
-        loadDB(data);
+      dbLoad(data);
 
         respondToURL(window.location.href);
 
