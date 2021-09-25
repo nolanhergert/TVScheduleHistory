@@ -24,6 +24,7 @@
 
   const url_prefix = new URL('index.html?', window.location.href);
   urls = [];
+  questions = [];
 
   function loadDB(data) {
     var lines = data.split("\r\n");
@@ -43,15 +44,18 @@
       // What time was X on in YYYY
       let url = url_prefix + "question=What time was " + show_name + " on in " + year + "&answer=" + start_time + "&show_name=" + show_name + "&year=" + year;
       urls.push(encodeURICustom(url));
+      questions.push("What time was " + show_name + " on in " + year + "?");
 
 
       // What network was X on in YYYY  (also do multiple years eventually?)
       url = url_prefix + "question=What network was " + show_name + " on in " + year + "&answer=" + network + "&show_name=" + show_name + "&year=" + year;
       urls.push(encodeURICustom(url));
+      questions.push("What network was " + show_name + " on in " + year + "?");
 
       // What day was X on in YYYY
       url = url_prefix + "question=What day was " + show_name + " on in " + year + "&answer=" + dow + "&show_name=" + show_name + "&year=" + year;
       urls.push(encodeURICustom(url));
+      questions.push("What day was " + show_name + " on in " + year + "?");
 
       //
       // Optional:
@@ -80,7 +84,7 @@
     // Encode siteamp in link format
     var html = '';
     for (var i = 0; i < urls.length; i++) {
-      html += "<a href=" + urls[i] + ">" + urls[i] + "</a><br>";
+      html += "<a href=" + urls[i] + ">" + questions[i] + "</a><br>";
     }
     document.body.innerHTML += html;//"<a href='#'></a>";
 

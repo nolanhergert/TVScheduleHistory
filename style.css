@@ -237,3 +237,27 @@ strong {
     margin-left: 0;
   }
 }
+
+
+/* Table */
+
+th {
+  font-weight: bold;
+}
+/* zebra striping */
+tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+td {
+  padding: 5px;
+  text-align: center;
+}
+
+table {
+  background-color: #d6d6d6;
+}

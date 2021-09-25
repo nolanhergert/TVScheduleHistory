@@ -28,12 +28,16 @@
     <input type="text" id="show_input" placeholder="Show Name">
     <p></p>
     <div id="output"></div>
+
+  <p>Data gathered from <a href="https://en.wikipedia.org/wiki/Lists_of_United_States_network_television_schedules">Wikipedia</a></p>
+  <!--
   <p></p>
   <p>Display #1: When was this show on the air (over all years). Raw db entries basically</p>
   <p>Display #2: What was also on at the same time on different networks for the same year? (what shows did you lose out on?)</p>
   <p>Display #3: What shows were around the given show? Not sure...</p>
+  -->
 
-  <a href="sitemap.html">Sitemap</a>
+  <p><a href="sitemap.html">Sitemap</a></p>
   </body>
 
     <script>
@@ -77,18 +81,23 @@
 
     function searchValidShowName(show_name) {
       var output = "";
+      // Add table header
+      output += "<table><thead><tr><th>Year</th><th>Network</th><th>Day of Week</th><th>Start Time</th><th>End Time</th><th>Show Name</th><th>Season</th></tr></thead><tbody>"
       for (var i = 0; i < db.length; i++) {
         if (db[i][5] == show_name) {
-          output += "<p>" + db[i].join('\t') + "</p>";
+          output += "<tr><td>" + db[i].join('</td><td>') + "</td></tr>";
         }
       }
+      output += "</tbody></table>"
       // Update output text area
       document.getElementById('output').innerHTML = output;
     };
 
 
     function setupPage(data) {
-      dbLoad(data);
+      dbLoad(data, db, years, networks, show_names);
+      show_names_list =  Array.from(show_names);
+
 
         respondToURL(window.location.href);
 
